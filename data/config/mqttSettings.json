@@ -1,8 +1,8 @@
 {
-  "host": "m20.cloudmqtt.com",
-  "port": 13750,
-  "username": "bidjkmzm",
-  "password": "zpKWfaUsu_PU",
+  "host": "something.cloudmqtt.com",
+  "port": 1883,
+  "username": "abcdefg",
+  "password": "12345",
   "enabled": true,
   "base": "home",
   "retain": false,
