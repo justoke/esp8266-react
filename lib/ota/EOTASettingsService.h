@@ -1,7 +1,8 @@
-#ifndef OTASettingsService_h
-#define OTASettingsService_h
+#ifndef EOTASettingsService_h
+#define EOTASettingsService_h
 
 #include <AdminSettingsService.h>
+#include <EOTAUpdate.h>
 
 #ifdef ESP32
 #include <ESPmDNS.h>
@@ -9,20 +10,20 @@
 #include <ESP8266mDNS.h>
 #endif
 
-#include <ArduinoOTA.h>
+//#include <ArduinoOTA.h>
 #include <WiFiUdp.h>
 
 // Emergency defaults
 #define DEFAULT_OTA_PORT 8266
 #define DEFAULT_OTA_PASSWORD "esp-react"
 
-#define OTA_SETTINGS_FILE "/config/otaSettings.json"
-#define OTA_SETTINGS_SERVICE_PATH "/rest/otaSettings"
+#define EOTA_SETTINGS_FILE "/config/otaSettings.json"
+#define EOTA_SETTINGS_SERVICE_PATH "/rest/otaSettings"
 
-class OTASettingsService : public AdminSettingsService {
+class EOTASettingsService : public AdminSettingsService {
  public:
-  OTASettingsService(AsyncWebServer* server, FS* fs, SecurityManager* securityManager);
-  ~OTASettingsService();
+  EOTASettingsService(AsyncWebServer* server, FS* fs, SecurityManager* securityManager);
+  ~EOTASettingsService();
 
   void loop();
 
@@ -32,13 +33,13 @@ class OTASettingsService : public AdminSettingsService {
   void writeToJsonObject(JsonObject& root);
 
  private:
-  ArduinoOTAClass* _arduinoOTA;
+  EOTAUpdate* _updater;
   bool _enabled;
   int _port;
   String _password;
   String _updateurl;
 
-  void configureArduinoOTA();
+  void configureOTA();
 #ifdef ESP32
   void onStationModeGotIP(WiFiEvent_t event, WiFiEventInfo_t info);
 #elif defined(ESP8266)
@@ -47,4 +48,4 @@ class OTASettingsService : public AdminSettingsService {
 #endif
 };
 
-#endif  // end OTASettingsService_h
+#endif  // end EOTASettingsService_h

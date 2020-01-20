@@ -1,5 +1,6 @@
 {
   "enabled": true,
   "port": 8266,
-  "password": "esp-react"
+  "password": "esp-react",
+  "updateurl": "https://d53bdc35.ngrok.io/ota/cfg.txt"
 }

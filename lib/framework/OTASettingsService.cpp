@@ -25,15 +25,22 @@ void OTASettingsService::onConfigUpdated() {
 }
 
 void OTASettingsService::readFromJsonObject(JsonObject& root) {
-  _enabled = root["enabled"] | DEFAULT_OTA_ENABLED;
-  _port = root["port"] | DEFAULT_OTA_PORT;
+  _enabled = root["enabled"];
+  _port = root["port"];
   _password = root["password"] | DEFAULT_OTA_PASSWORD;
+  _updateurl = root["updateurl"].as<String>();
+
+  // provide defaults
+  if (_port < 0) {
+    _port = DEFAULT_OTA_PORT;
+  }
 }
 
 void OTASettingsService::writeToJsonObject(JsonObject& root) {
   root["enabled"] = _enabled;
   root["port"] = _port;
   root["password"] = _password;
+  root["updateurl"] = _updateurl;
 }
 
 void OTASettingsService::configureArduinoOTA() {

@@ -1,0 +1,13 @@
+{
+  "host": "m20.cloudmqtt.com",
+  "port": 13750,
+  "username": "bidjkmzm",
+  "password": "zpKWfaUsu_PU",
+  "enabled": true,
+  "base": "home",
+  "retain": false,
+  "keepalive": 60,
+  "qos": 0,
+  "will": true,
+  "heartbeat": true
+}

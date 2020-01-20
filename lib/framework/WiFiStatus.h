@@ -1,9 +1,10 @@
 #ifndef WiFiStatus_h
 #define WiFiStatus_h
 
+#include "FreeRTOS.h"
 #ifdef ESP32
-#include <WiFi.h>
 #include <AsyncTCP.h>
+#include <WiFi.h>
 #elif defined(ESP8266)
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
@@ -21,6 +22,8 @@
 class WiFiStatus {
  public:
   WiFiStatus(AsyncWebServer* server, SecurityManager* securityManager);
+
+  static int getWifiQuality();
 
  private:
 #ifdef ESP32

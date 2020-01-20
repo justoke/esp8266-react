@@ -12,7 +12,9 @@ ESP8266React::ESP8266React(AsyncWebServer* server, FS* fs) :
     _wifiStatus(server, &_securitySettingsService),
     _ntpStatus(server, &_securitySettingsService),
     _apStatus(server, &_securitySettingsService),
-    _systemStatus(server, &_securitySettingsService) {
+    _systemStatus(server, &_securitySettingsService),
+    _mqttSettingsService(server, fs, &_securitySettingsService),
+    _mqttStatus(server, &_securitySettingsService) {
 #ifdef PROGMEM_WWW
   // Serve static resources from PROGMEM
   WWWData::registerRoutes(
@@ -71,6 +73,7 @@ void ESP8266React::begin() {
   _apSettingsService.begin();
   _ntpSettingsService.begin();
   _otaSettingsService.begin();
+  _mqttSettingsService.begin();
 }
 
 void ESP8266React::loop() {
@@ -78,4 +81,5 @@ void ESP8266React::loop() {
   _apSettingsService.loop();
   _ntpSettingsService.loop();
   _otaSettingsService.loop();
+  _mqttSettingsService.loop();
 }

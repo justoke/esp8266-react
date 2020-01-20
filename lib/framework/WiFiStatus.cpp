@@ -77,3 +77,25 @@ void WiFiStatus::wifiStatus(AsyncWebServerRequest* request) {
   response->setLength();
   request->send(response);
 }
+
+/*
+   Return the quality (Received Signal Strength Indicator)
+   of the WiFi network.
+   Returns a number between 0 and 100 if WiFi is connected.
+   Returns -1 if WiFi is disconnected.
+
+   High quality: 90% ~= -55dBm
+   Medium quality: 50% ~= -75dBm
+   Low quality: 30% ~= -85dBm
+   Unusable quality: 8% ~= -96dBm
+*/
+int WiFiStatus::getWifiQuality() {
+  if (WiFi.status() != WL_CONNECTED)
+    return -1;
+  int dBm = WiFi.RSSI();
+  if (dBm <= -100)
+    return 0;
+  if (dBm >= -50)
+    return 100;
+  return 2 * (dBm + 100);
+}
