@@ -15,7 +15,9 @@ DemoProject::DemoProject(AsyncWebServer* server,
     AdminSettingsService(server, fs, esp8266React->getSecurityManager(), DEMO_SETTINGS_PATH, DEMO_SETTINGS_FILE),
     _esp8266React(esp8266React) {
   pinMode(BLINK_LED, OUTPUT);
+
   _otaUpdateService = otaUpdateService;
+
   MQTT.setMQTTcallback(std::bind(
       &DemoProject::onMqttMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
@@ -45,13 +47,10 @@ void DemoProject::onMqttMessage(size_t len, const char* topic, const char* paylo
     _esp8266React->getOTASettingsService()->updateFromString(config);
     Serial.println(config);
   }
-
 }
 
 void DemoProject::loop() {
-  _esp8266React->loop();
-
-  unsigned delay = MAX_DELAY / 255 * (255 - _blinkSpeed);
+  unsigned delay = MAX_DELAY / 255 * (255 - _settings.blinkSpeed);
   unsigned long currentMillis = millis();
   if (!_lastBlink || (unsigned long)(currentMillis - _lastBlink) >= delay) {
     _lastBlink = currentMillis;
@@ -94,6 +93,7 @@ void DemoProject::readFromJsonObject(JsonObject& root) {
   _id = root["id"] | DEFAULT_SETTING;
   _location = root["location"] | DEFAULT_SETTING;
   _blinkSpeed = root["blink_speed"] | DEFAULT_BLINK_SPEED;
+  _settings.blinkSpeed = root["blink_speed"] | DEFAULT_BLINK_SPEED;
 }
 
 void DemoProject::writeToJsonObject(JsonObject& root) {
@@ -101,4 +101,5 @@ void DemoProject::writeToJsonObject(JsonObject& root) {
   root["id"] = _id;
   root["location"] = _location;
   root["blink_speed"] = _blinkSpeed;
+  root["blink_speed"] = _settings.blinkSpeed;
 }

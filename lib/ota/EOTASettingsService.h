@@ -5,12 +5,12 @@
 #include <EOTAUpdate.h>
 
 #ifdef ESP32
+#include <FreeRTOS.h>
 #include <ESPmDNS.h>
 #elif defined(ESP8266)
 #include <ESP8266mDNS.h>
 #endif
 
-//#include <ArduinoOTA.h>
 #include <WiFiUdp.h>
 
 // Emergency defaults
@@ -20,7 +20,15 @@
 #define EOTA_SETTINGS_FILE "/config/otaSettings.json"
 #define EOTA_SETTINGS_SERVICE_PATH "/rest/otaSettings"
 
-class EOTASettingsService : public AdminSettingsService {
+class EOTASettings {
+ public:
+  bool enabled;
+  int port;
+  String password;
+  String updateurl;
+};
+
+class EOTASettingsService : public AdminSettingsService<EOTASettings> {
  public:
   EOTASettingsService(AsyncWebServer* server, FS* fs, SecurityManager* securityManager);
   ~EOTASettingsService();
@@ -34,10 +42,6 @@ class EOTASettingsService : public AdminSettingsService {
 
  private:
   EOTAUpdate* _updater;
-  bool _enabled;
-  int _port;
-  String _password;
-  String _updateurl;
 
   void configureOTA();
 #ifdef ESP32

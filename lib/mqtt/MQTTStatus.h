@@ -1,11 +1,10 @@
 #ifndef MQTTStatus_h
 #define MQTTStatus_h
-
-#include <FreeRTOS.h>
 #if defined(ESP8266)
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #elif defined(ESP32)
+#include <FreeRTOS.h>
 #include <AsyncTCP.h>
 #include <WiFi.h>
 #endif

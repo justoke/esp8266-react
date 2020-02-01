@@ -20,16 +20,16 @@ EOTASettingsService::~EOTASettingsService() {
 }
 
 void EOTASettingsService::loop() {
-  if (_enabled) {
+  if (_settings.enabled) {
     if (_updater) {
-      _enabled = false;
+      _settings.enabled = false;
 
       if (_updater->CheckAndUpdate()) {
         log_i("Checking for updates. Remember to set the URL!");
 
-        Serial.println(_updateurl);
+        Serial.println(_settings.updateurl);
       }
-      _enabled = true;
+      _settings.enabled = true;
     }
   }
 }
@@ -39,22 +39,17 @@ void EOTASettingsService::onConfigUpdated() {
 }
 
 void EOTASettingsService::readFromJsonObject(JsonObject& root) {
-  _enabled = root["enabled"];
-  _port = root["port"];
-  _updateurl = root["updateurl"].as<String>();
-  _password = root["password"] | DEFAULT_OTA_PASSWORD;
-
-  // provide defaults
-  if (_port < 0) {
-    _port = DEFAULT_OTA_PORT;
-  }
+  _settings.enabled = root["enabled"];
+  _settings.port = root["port"] | DEFAULT_OTA_PORT;
+  _settings.updateurl = root["updateurl"].as<String>();
+  _settings.password = root["password"] | DEFAULT_OTA_PASSWORD;
 }
 
 void EOTASettingsService::writeToJsonObject(JsonObject& root) {
-  root["enabled"] = _enabled;
-  root["port"] = _port;
-  root["password"] = _password;
-  root["updateurl"] = _updateurl;
+  root["enabled"] = _settings.enabled;
+  root["port"] = _settings.port;
+  root["password"] = _settings.password;
+  root["updateurl"] = _settings.updateurl;
 }
 
 void EOTASettingsService::configureOTA() {
@@ -63,12 +58,12 @@ void EOTASettingsService::configureOTA() {
     _updater = nullptr;
   }
 
-  if (_enabled) {
+  if (_settings.enabled) {
     log_i("Current Version : ");
     Serial.print(String(FIRMWARE_VERSION_STRING));
 
     log_i("_updateurl : ");
-    Serial.print(_updateurl);
+    Serial.print(_settings.updateurl);
 #ifdef OTA_UPDATE_URL
     log_i("OTA_UPDATE_URL : ");
     Serial.print(OTA_UPDATE_URL);
@@ -76,7 +71,7 @@ void EOTASettingsService::configureOTA() {
     _updater = new EOTAUpdate(OTA_UPDATE_URL, VERSION_NUMBER, 3600UL);
 #else
     log_i("Using _updateurl from otaSettings.json file");
-    _updater = new EOTAUpdate(_updateurl, VERSION_NUMBER, 3600UL);
+    _updater = new EOTAUpdate(_settings.updateurl, VERSION_NUMBER, 3600UL);
 #endif
   }
 }

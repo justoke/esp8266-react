@@ -2,10 +2,8 @@
 #define DemoProject_h
 
 #include <AdminSettingsService.h>
-#include <EOTASettingsService.h>
 #include <ESP8266React.h>
-#include <FreeRTOS.h>
-#include <MQTTClient.h>
+#include <EOTASettingsService.h>
 
 #define BLINK_LED 2
 #define MAX_DELAY 1000
@@ -16,7 +14,12 @@
 #define DEMO_SETTINGS_PATH "/rest/demoSettings"
 #define DEFAULT_SETTING "DEFAULT"
 
-class DemoProject : public AdminSettingsService {
+class DemoSettings {
+ public:
+  uint8_t blinkSpeed;
+};
+
+class DemoProject : public AdminSettingsService<DemoSettings> {
  public:
   DemoProject(AsyncWebServer* server, FS* fs, ESP8266React* esp8266React, EOTASettingsService* otaUpdateService);
   ~DemoProject();

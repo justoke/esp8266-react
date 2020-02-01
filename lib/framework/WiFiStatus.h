@@ -1,7 +1,6 @@
 #ifndef WiFiStatus_h
 #define WiFiStatus_h
 
-#include "FreeRTOS.h"
 #ifdef ESP32
 #include <AsyncTCP.h>
 #include <WiFi.h>

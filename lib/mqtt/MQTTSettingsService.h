@@ -7,7 +7,22 @@
 #define MQTT_SETTINGS_SERVICE_PATH "/rest/mqttSettings"
 #define MQTT_SETTINGS_FILE "/config/mqttSettings.json"
 
-class MQTTSettingsService : public AdminSettingsService {
+class MQTTSettings {
+ public:
+  bool enabled;
+  String host;
+  String base;
+  int port;
+  bool retain;
+  int keepalive;
+  int qos;
+  bool will;
+  String username;
+  String password;
+  bool heartbeat;
+};
+
+class MQTTSettingsService : public AdminSettingsService<MQTTSettings> {
  public:
   MQTTSettingsService(AsyncWebServer* server, FS* fs, SecurityManager* securityManager);
   ~MQTTSettingsService();
@@ -19,19 +34,6 @@ class MQTTSettingsService : public AdminSettingsService {
   void readFromJsonObject(JsonObject& root);
   void writeToJsonObject(JsonObject& root);
   void onConfigUpdated();
-
- private:
-  bool _enabled;
-  String _host;
-  String _base;
-  int _port;
-  bool _retain;
-  int _keepalive;
-  int _qos;
-  bool _will;
-  String _username;
-  String _password;
-  bool _heartbeat;
 };
 
 #endif

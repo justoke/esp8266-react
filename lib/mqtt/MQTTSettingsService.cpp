@@ -44,44 +44,44 @@ void MQTTSettingsService::readFromJsonObject(JsonObject& root) {
   
 
   */
-  _enabled = root["enabled"];
-  _host = root["host"].as<String>();
-  _base = root["base"].as<String>();
-  _port = root["port"];
-  _retain = root["retain"];
-  _keepalive = root["keepalive"];
-  _qos = root["qos"];
-  _will = root["will"];
-  _username = root["username"].as<String>();
-  _password = root["password"].as<String>();
-  _heartbeat = root["heartbeat"];
+  _settings.enabled = root["enabled"];
+  _settings.host = root["host"].as<String>();
+  _settings.base = root["base"].as<String>();
+  _settings.port = root["port"];
+  _settings.retain = root["retain"];
+  _settings.keepalive = root["keepalive"];
+  _settings.qos = root["qos"];
+  _settings.will = root["will"];
+  _settings.username = root["username"].as<String>();
+  _settings.password = root["password"].as<String>();
+  _settings.heartbeat = root["heartbeat"];
 
   Serial.print("MQTTSettingsService::readFromJsonObject(JsonObject& root)");
-  Serial.println(_enabled);
-  Serial.println(_host);
-  Serial.println(_base);
-  Serial.println(_port);
-  Serial.println(_retain);
-  Serial.println(_keepalive);
-  Serial.println(_qos);
-  Serial.println(_will);
-  Serial.println(_username);
-  Serial.println(_password);
-  Serial.println(_heartbeat);
+  Serial.println(_settings.enabled);
+  Serial.println(_settings.host);
+  Serial.println(_settings.base);
+  Serial.println(_settings.port);
+  Serial.println(_settings.retain);
+  Serial.println(_settings.keepalive);
+  Serial.println(_settings.qos);
+  Serial.println(_settings.will);
+  Serial.println(_settings.username);
+  Serial.println(_settings.password);
+  Serial.println(_settings.heartbeat);
 }
 
 void MQTTSettingsService::writeToJsonObject(JsonObject& root) {
-  root["enabled"] = _enabled;
-  root["host"] = _host;
-  root["base"] = _base;
-  root["port"] = _port;
-  root["retain"] = _retain;
-  root["keepalive"] = _keepalive;
-  root["qos"] = _qos;
-  root["will"] = _will;
-  root["username"] = _username;
-  root["password"] = _password;
-  root["heartbeat"] = _heartbeat;
+  root["enabled"] = _settings.enabled;
+  root["host"] = _settings.host;
+  root["base"] = _settings.base;
+  root["port"] = _settings.port;
+  root["retain"] = _settings.retain;
+  root["keepalive"] = _settings.keepalive;
+  root["qos"] = _settings.qos;
+  root["will"] = _settings.will;
+  root["username"] = _settings.username;
+  root["password"] = _settings.password;
+  root["heartbeat"] = _settings.heartbeat;
 }
 
 #endif

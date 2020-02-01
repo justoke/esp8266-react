@@ -2,7 +2,6 @@
 
 #if MQTT_SUPPORT
 
-#include <FreeRTOS.h>
 #include "Config.h"
 #include "MQTTClient.h"
 

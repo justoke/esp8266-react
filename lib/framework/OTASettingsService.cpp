@@ -15,7 +15,7 @@ OTASettingsService::~OTASettingsService() {
 }
 
 void OTASettingsService::loop() {
-  if (_enabled && _arduinoOTA) {
+  if (_settings.enabled && _arduinoOTA) {
     _arduinoOTA->handle();
   }
 }
@@ -25,22 +25,17 @@ void OTASettingsService::onConfigUpdated() {
 }
 
 void OTASettingsService::readFromJsonObject(JsonObject& root) {
-  _enabled = root["enabled"];
-  _port = root["port"];
-  _password = root["password"] | DEFAULT_OTA_PASSWORD;
-  _updateurl = root["updateurl"].as<String>();
-
-  // provide defaults
-  if (_port < 0) {
-    _port = DEFAULT_OTA_PORT;
-  }
+  _settings.enabled = root["enabled"] | DEFAULT_OTA_ENABLED;
+  _settings.port = root["port"] | DEFAULT_OTA_PORT;
+  _settings.password = root["password"] | DEFAULT_OTA_PASSWORD;
+  _settings.updateurl = root["updateurl"].as<String>();
 }
 
 void OTASettingsService::writeToJsonObject(JsonObject& root) {
-  root["enabled"] = _enabled;
-  root["port"] = _port;
-  root["password"] = _password;
-  root["updateurl"] = _updateurl;
+  root["enabled"] = _settings.enabled;
+  root["port"] = _settings.port;
+  root["password"] = _settings.password;
+  root["updateurl"] = _settings.updateurl;
 }
 
 void OTASettingsService::configureArduinoOTA() {
@@ -51,11 +46,11 @@ void OTASettingsService::configureArduinoOTA() {
     delete _arduinoOTA;
     _arduinoOTA = nullptr;
   }
-  if (_enabled) {
+  if (_settings.enabled) {
     Serial.println("Starting OTA Update Service");
     _arduinoOTA = new ArduinoOTAClass;
-    _arduinoOTA->setPort(_port);
-    _arduinoOTA->setPassword(_password.c_str());
+    _arduinoOTA->setPort(_settings.port);
+    _arduinoOTA->setPassword(_settings.password.c_str());
     _arduinoOTA->onStart([]() { Serial.println("Starting"); });
     _arduinoOTA->onEnd([]() { Serial.println("\nEnd"); });
     _arduinoOTA->onProgress([](unsigned int progress, unsigned int total) {
