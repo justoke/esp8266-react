@@ -1,6 +1,5 @@
 #include <Config.h>
 #include <DemoProject.h>
-#include <NtpClientLib.h>
 
 /* DemoProject::DemoProject(AsyncWebServer* server,
                          FS* fs,

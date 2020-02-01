@@ -3,15 +3,13 @@
 
 #include <AdminSettingsService.h>
 #include <EOTAUpdate.h>
+#include <WiFiUdp.h>
 
 #ifdef ESP32
-#include <FreeRTOS.h>
 #include <ESPmDNS.h>
 #elif defined(ESP8266)
 #include <ESP8266mDNS.h>
 #endif
-
-#include <WiFiUdp.h>
 
 // Emergency defaults
 #define DEFAULT_OTA_PORT 8266

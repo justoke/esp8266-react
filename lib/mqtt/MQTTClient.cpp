@@ -13,8 +13,8 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #elif defined(ESP32)
-#include <AsyncTCP.h>
 #include <WiFi.h>
+#include <AsyncTCP.h>
 #endif
 
 // set callback for custom MQTT handlers

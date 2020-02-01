@@ -4,9 +4,8 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #elif defined(ESP32)
-#include <FreeRTOS.h>
-#include <AsyncTCP.h>
 #include <WiFi.h>
+#include <AsyncTCP.h>
 #endif
 
 #include <ArduinoJson.h>
